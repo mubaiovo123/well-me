@@ -170,17 +170,23 @@
         const ctrlBtn = document.getElementById('audioCtrlBtn');
         let audioPlayed = false;
 
-        // 页面任意点击一次后自动播放（浏览器交互限制）
-        document.addEventListener('click', () => {
-            if (!audioPlayed) {
-                audio.play().then(() => {
-                    audioPlayed = true;
-                    ctrlBtn.innerText = '暂停';
-                }).catch(err => {
-                    console.log("音频播放等待用户交互", err);
-                });
-            }
-        });
+        // 统一播放触发函数
+        function startAudio() {
+            if (audioPlayed) return;
+            audio.play().then(() => {
+                audioPlayed = true;
+                ctrlBtn.innerText = '暂停';
+            }).catch(err => {
+                console.log("音频播放失败", err);
+            });
+        }
+
+        // 1. 点击页面触发播放
+        document.addEventListener('click', startAudio);
+        // 2. 鼠标滚轮滚动触发播放（电脑端）
+        window.addEventListener('scroll', startAudio);
+        // 3. 手机触屏滑动触发播放（移动端）
+        window.addEventListener('touchmove', startAudio);
 
         // 按钮暂停/播放切换，阻止冒泡重复触发页面自动播放
         ctrlBtn.addEventListener('click', (e) => {
