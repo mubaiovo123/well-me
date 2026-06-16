@@ -17,7 +17,7 @@
             padding: 60px 15px;
         }
         /* 总卡片容器 */
-        。container {
+        .container {
             max-width: 460px;
             margin: 0 auto;
             background: #ffffff;
@@ -93,6 +93,35 @@
             color: #b8a69b;
             font-size: 14px;
         }
+
+        /* 右下角悬浮音乐播放器样式（适配浅色系页面，文字深色） */
+        .music-float-player {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 999px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            border: 1px solid rgba(232, 201, 185, 0.5);
+            color: #44332a;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .music-float-player button {
+            border: none;
+            background: #e8c9b9;
+            color: #44332a;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -126,5 +155,44 @@
         <!-- 页面底部结束文字 -->
         <p class="end-text">well 2026</p>
     </div>
+
+    <!-- 悬浮播放器DOM -->
+    <div class="music-float-player">
+        <button id="audioCtrlBtn">播放</button>
+        <span>背景音乐</span>
+    </div>
+
+    <!-- 音频标签，路径/music/cqyzm.mp3，循环播放 -->
+    <audio id="bgAudio" loop src="/music/cqyzm.mp3">
+
+    <script>
+        const audio = document.getElementById('bgAudio');
+        const ctrlBtn = document.getElementById('audioCtrlBtn');
+        let audioPlayed = false;
+
+        // 页面任意点击一次后自动播放（浏览器交互限制）
+        document.addEventListener('click', () => {
+            if (!audioPlayed) {
+                audio.play().then(() => {
+                    audioPlayed = true;
+                    ctrlBtn.innerText = '暂停';
+                }).catch(err => {
+                    console.log("音频播放等待用户交互", err);
+                });
+            }
+        });
+
+        // 按钮暂停/播放切换，阻止冒泡重复触发页面自动播放
+        ctrlBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) {
+                audio.play();
+                ctrlBtn.innerText = '暂停';
+            } else {
+                audio.pause();
+                ctrlBtn.innerText = '播放';
+            }
+        });
+    </script>
 </body>
 </html>
