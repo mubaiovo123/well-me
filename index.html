@@ -113,7 +113,7 @@
             font-size: 14px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        。music-float-player button {
+        .music-float-player button {
             border: none;
             background: #e8c9b9;
             color: #44332a;
@@ -121,6 +121,11 @@
             width: 28px;
             height: 28px;
             cursor: pointer;
+            /* 新增hover过渡，按钮hover变色优化 */
+            transition: 0.2s ease;
+        }
+        .music-float-player button:hover {
+            background: #ddb8a5;
         }
     </style>
 </head>
@@ -163,7 +168,7 @@
         <span>背景音乐</span>
     </div>
 
-    <!-- 音频标签，路径/music/cqyzm.mp3，循环播放 -->
+    <!-- 音频标签闭合 -->
     <audio id="bgAudio" loop src="https://cdn.1d.mom/cqyzm.mp3">
 
     <script>
