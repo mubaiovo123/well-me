@@ -1,210 +1,1694 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Well | 自我介绍</title>
-    <style>
-        /* 全局初始化 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "PingFang SC", sans-serif;
-        }
-        body {
-            background-color: #f7f3f0;
-            padding: 60px 15px;
-        }
-        /* 总卡片容器 */
-        .container {
-            max-width: 460px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 45px 30px;
-            box-shadow: 0 10px 30px rgba(180, 160, 140, 0.15);
-        }
-        /* 头像区域 */
-        .avatar-area {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .avatar {
-            width: 170px;
-            height: 170px;
-            border-radius: 999px;
-            border: 5px solid #e8c9b9;
-            object-fit: cover;
-        }
-        /* 昵称 */
-        .name {
-            text-align: center;
-            font-size: 34px;
-            color: #44332a;
-            letter-spacing: 2px;
-        }
-        .motto {
-            text-align: center;
-            color: #998478;
-            margin: 8px 0 40px;
-            font-size: 16px;
-        }
-        /* 板块标题 */
-        .section-title {
-            font-size: 20px;
-            color: #6d5548;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e8c9b9;
-            margin-bottom: 22px;
-        }
-        /* 列表容器 */
-        .list-box {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-        /* 每条内容卡片 */
-        .list-item {
-            background: #f9f4f1;
-            padding: 20px;
-            border-radius: 12px;
-            color: #554237;
-            transition: all 0.3s ease;
-        }
-        .list-item:hover {
-            background: #e8c9b9;
-            color: #fff;
-        }
-        .item-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-        .item-desc {
-            font-size: 15px;
-            line-height: 1.6;
-            opacity: 0.85;
-        }
-        /* 底部结束语 */
-        .end-text {
-            margin-top: 50px;
-            text-align: center;
-            color: #b8a69b;
-            font-size: 14px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Well - 个人主页</title>
+  <style>
+    /* ==========================================
+       CSS Variables & Reset
+       ========================================== */
+    :root {
+      --bg-primary: #FAF9F7;
+      --bg-card: #FFFFFF;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --text-muted: #999999;
+      --accent: #D4A8A0;
+      --accent-light: #F0E0DC;
+      --accent-deep: #C49288;
+      --border: #E8E4E0;
+      --shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+      --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.10);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --font-sans: 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
-        /* 右下角悬浮音乐播放器样式（适配浅色系页面，文字深色） */
-        .music-float-player {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 999px;
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 9999;
-            border: 1px solid rgba(232, 201, 185, 0.5);
-            color: #44332a;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .music-float-player button {
-            border: none;
-            background: #e8c9b9;
-            color: #44332a;
-            border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            cursor: pointer;
-            /* 新增hover过渡，按钮hover变色优化 */
-            transition: 0.2s ease;
-        }
-        .music-float-player button:hover {
-            background: #ddb8a5;
-        }
-    </style>
+    /* Auto dark mode by system preference */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg-primary: #1a1a1f;
+        --bg-card: #252528;
+        --text-primary: #e8e8e8;
+        --text-secondary: #b0b0b0;
+        --text-muted: #7a7a7a;
+        --accent: #D4A8A0;
+        --accent-light: #3a2a26;
+        --accent-deep: #E0B8B0;
+        --border: #353538;
+        --shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+        --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    /* Manual dark mode override */
+    [data-theme="dark"] {
+      --bg-primary: #1a1a1f;
+      --bg-card: #252528;
+      --text-primary: #e8e8e8;
+      --text-secondary: #b0b0b0;
+      --text-muted: #7a7a7a;
+      --accent: #D4A8A0;
+      --accent-light: #3a2a26;
+      --accent-deep: #E0B8B0;
+      --border: #353538;
+      --shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+      --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Manual light mode override */
+    [data-theme="light"] {
+      --bg-primary: #FAF9F7;
+      --bg-card: #FFFFFF;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --text-muted: #999999;
+      --accent: #D4A8A0;
+      --accent-light: #F0E0DC;
+      --accent-deep: #C49288;
+      --border: #E8E4E0;
+      --shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+      --shadow-hover: 0 6px 24px rgba(0, 0, 0, 0.10);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html {
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+
+    /* ==========================================
+       Container
+       ========================================== */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================
+       Hero Section
+       ========================================== */
+    .hero {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+
+    .hero-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-light);
+      padding: 3px;
+      background: var(--bg-card);
+      box-shadow: 0 4px 20px rgba(212, 168, 160, 0.25);
+      transition: transform var(--transition);
+      object-fit: cover;
+    }
+
+    .hero-avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .hero-name {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 16px;
+      letter-spacing: 2px;
+    }
+
+    .hero-slogan {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-weight: 400;
+      letter-spacing: 1px;
+    }
+
+    /* ==========================================
+       Section Title
+       ========================================== */
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent-light);
+      display: inline-block;
+    }
+
+    .section {
+      margin-bottom: 48px;
+    }
+
+    /* ==========================================
+       About Section
+       ========================================== */
+    .about-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      line-height: 1.8;
+      color: var(--text-secondary);
+      font-size: 15px;
+    }
+
+    .about-card p + p {
+      margin-top: 12px;
+    }
+
+    /* ==========================================
+       Hobbies & Skills Section
+       ========================================== */
+    .hobby-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 600px) {
+      .hobby-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .hobby-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .hobby-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .hobby-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      color: var(--accent-deep);
+    }
+
+    .hobby-info h4 {
+      font-size: 15px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .hobby-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ==========================================
+       Social Icons Bar
+       ========================================== */
+    .social-bar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 0;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+      color: var(--text-secondary);
+      text-decoration: none;
+      position: relative;
+    }
+
+    .social-link:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      background: var(--accent-light);
+      color: var(--accent-deep);
+    }
+
+    .social-link svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    /* Tooltip */
+    .social-link::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity var(--transition);
+      pointer-events: none;
+    }
+
+    .social-link:hover::after {
+      opacity: 1;
+    }
+
+    /* ==========================================
+       Theme Toggle
+       ========================================== */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1001;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      box-shadow: var(--shadow);
+      color: var(--text-secondary);
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent-light);
+      color: var(--accent-deep);
+      transform: scale(1.08);
+    }
+
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .theme-toggle .icon-sun { display: none; }
+    .theme-toggle .icon-moon { display: block; }
+
+    [data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle .icon-sun { display: block; }
+      :root:not([data-theme="light"]) .theme-toggle .icon-moon { display: none; }
+    }
+
+    [data-theme="dark"] .theme-toggle,
+    [data-theme="dark"] .music-toggle,
+    [data-theme="dark"] .music-panel {
+      background: rgba(37, 37, 40, 0.92);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-toggle,
+      :root:not([data-theme="light"]) .music-toggle,
+      :root:not([data-theme="light"]) .music-panel {
+        background: rgba(37, 37, 40, 0.92);
+      }
+    }
+
+    /* ==========================================
+       Music Player - Floating Toggle Button
+       ========================================== */
+    .music-player {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 1000;
+    }
+
+    .music-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      transition: all var(--transition);
+      user-select: none;
+      position: relative;
+      z-index: 1001;
+    }
+
+    .music-toggle:hover {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .music-toggle.playing {
+      background: var(--accent-light);
+      border-color: var(--accent);
+      color: var(--accent-deep);
+    }
+
+    .music-toggle-icon {
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .music-wave {
+      display: flex;
+      gap: 2px;
+      align-items: flex-end;
+      height: 16px;
+    }
+
+    .music-wave span {
+      width: 3px;
+      background: currentColor;
+      border-radius: 2px;
+      animation: wave 1.2s ease-in-out infinite;
+    }
+
+    .music-wave span:nth-child(1) { height: 8px; animation-delay: 0s; }
+    .music-wave span:nth-child(2) { height: 16px; animation-delay: 0.2s; }
+    .music-wave span:nth-child(3) { height: 12px; animation-delay: 0.4s; }
+    .music-wave span:nth-child(4) { height: 6px; animation-delay: 0.6s; }
+
+    .music-toggle.playing .music-wave span {
+      animation-play-state: running;
+    }
+
+    .music-toggle:not(.playing) .music-wave span {
+      animation-play-state: paused;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.4); }
+    }
+
+    /* ==========================================
+       Music Player - Panel
+       ========================================== */
+    .music-panel-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .music-panel-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .music-panel {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      max-width: 400px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.12);
+      z-index: 1000;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 0 0 20px 0;
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-bottom: none;
+    }
+
+    .music-panel.open {
+      transform: translateY(0);
+    }
+
+    .music-panel-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin: 12px auto 8px;
+    }
+
+    /* Now Playing */
+    .music-panel-now {
+      text-align: center;
+      padding: 8px 24px 16px;
+    }
+
+    .music-panel-cover {
+      width: 100px;
+      height: 100px;
+      border-radius: 16px;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: white;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    }
+
+    .music-panel-cover.playing-cover {
+      animation: coverPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes coverPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    .music-panel-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .music-panel-artist {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Progress Bar */
+    .music-progress-wrap {
+      padding: 0 24px;
+      margin-bottom: 12px;
+    }
+
+    .music-progress-bar {
+      width: 100%;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: visible;
+    }
+
+    .music-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      position: relative;
+      transition: width 0.1s linear;
+      width: 0%;
+    }
+
+    .music-progress-fill::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .music-progress-bar:hover .music-progress-fill::after {
+      opacity: 1;
+    }
+
+    .music-progress-bar:hover {
+      height: 6px;
+    }
+
+    .music-time {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* Controls */
+    .music-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 0 24px 16px;
+    }
+
+    .music-ctrl-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      font-size: 0;
+    }
+
+    .music-ctrl-btn:hover {
+      color: var(--accent-deep);
+      background: var(--accent-light);
+    }
+
+    .music-ctrl-btn.mode-active {
+      color: var(--accent-deep);
+    }
+
+    .music-ctrl-play {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      box-shadow: 0 4px 16px rgba(212, 168, 160, 0.4);
+    }
+
+    .music-ctrl-play:hover {
+      background: var(--accent-deep);
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(212, 168, 160, 0.5);
+    }
+
+    .music-ctrl-play svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .music-ctrl-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Volume */
+    .music-volume-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 24px 16px;
+      justify-content: center;
+    }
+
+    .music-volume-icon {
+      color: var(--text-muted);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .music-volume-slider {
+      -webkit-appearance: none;
+      width: 100px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .music-volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Playlist */
+    .music-playlist {
+      border-top: 1px solid var(--border);
+      padding: 12px 0 0;
+    }
+
+    .music-playlist-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      padding: 0 24px 10px;
+    }
+
+    .music-playlist-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .music-playlist-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 24px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+
+    .music-playlist-item:hover {
+      background: rgba(212, 168, 160, 0.08);
+    }
+
+    .music-playlist-item.active {
+      background: var(--accent-light);
+      border-left-color: var(--accent);
+    }
+
+    .music-playlist-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-deep);
+      flex-shrink: 0;
+    }
+
+    .music-playlist-item.active .music-playlist-num {
+      background: var(--accent);
+      color: white;
+    }
+
+    .music-playlist-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .music-playlist-song {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .music-playlist-item.active .music-playlist-song {
+      color: var(--accent-deep);
+    }
+
+    .music-playlist-artist {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .music-playlist-dur {
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .music-playlist-playing {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5px;
+      flex-shrink: 0;
+    }
+
+    .music-playlist-playing span {
+      width: 2.5px;
+      background: var(--accent);
+      border-radius: 1px;
+      animation: wave 0.9s ease-in-out infinite;
+    }
+
+    .music-playlist-playing span:nth-child(1) { height: 10px; animation-delay: 0s; }
+    .music-playlist-playing span:nth-child(2) { height: 16px; animation-delay: 0.15s; }
+    .music-playlist-playing span:nth-child(3) { height: 12px; animation-delay: 0.3s; }
+    .music-playlist-playing span:nth-child(4) { height: 6px; animation-delay: 0.45s; }
+
+    /* ==========================================
+       Footer
+       ========================================== */
+    .footer {
+      text-align: center;
+      padding: 32px 0 48px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .footer .heart {
+      color: var(--accent);
+    }
+
+    /* ==========================================
+       Toast Notification
+       ========================================== */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text-primary);
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 24px;
+      font-size: 14px;
+      z-index: 2000;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      font-family: var(--font-sans);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ==========================================
+       Scroll Animations
+       ========================================== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .fade-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scale-in {
+      opacity: 0;
+      transform: scale(0.92);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .scale-in.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Staggered delays for grid items */
+    .hobby-card.fade-up:nth-child(1) { transition-delay: 0s; }
+    .hobby-card.fade-up:nth-child(2) { transition-delay: 0.08s; }
+    .hobby-card.fade-up:nth-child(3) { transition-delay: 0.16s; }
+    .hobby-card.fade-up:nth-child(4) { transition-delay: 0.24s; }
+
+    .hobby-card.fade-up.visible:nth-child(1) { transition-delay: 0s; }
+    .hobby-card.fade-up.visible:nth-child(2) { transition-delay: 0.08s; }
+    .hobby-card.fade-up.visible:nth-child(3) { transition-delay: 0.16s; }
+    .hobby-card.fade-up.visible:nth-child(4) { transition-delay: 0.24s; }
+
+    .social-link.fade-up:nth-child(1) { transition-delay: 0s; }
+    .social-link.fade-up:nth-child(2) { transition-delay: 0.08s; }
+    .social-link.fade-up:nth-child(3) { transition-delay: 0.16s; }
+    .social-link.fade-up:nth-child(4) { transition-delay: 0.24s; }
+
+    .social-link.fade-up.visible:nth-child(1) { transition-delay: 0s; }
+    .social-link.fade-up.visible:nth-child(2) { transition-delay: 0.08s; }
+    .social-link.fade-up.visible:nth-child(3) { transition-delay: 0.16s; }
+    .social-link.fade-up.visible:nth-child(4) { transition-delay: 0.24s; }
+
+    /* Page load curtain */
+    .page-curtain {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .page-curtain.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .curtain-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================
+       Responsive
+       ========================================== */
+    @media (max-width: 480px) {
+      .hero {
+        padding: 40px 0 30px;
+      }
+      .hero-name {
+        font-size: 28px;
+      }
+      .hero-slogan {
+        font-size: 13px;
+      }
+      .section-title {
+        font-size: 18px;
+      }
+      .music-player {
+        bottom: 16px;
+        right: 16px;
+      }
+      .music-toggle {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+      .music-panel {
+        max-width: 100%;
+        border-radius: 20px 20px 0 0;
+      }
+      .music-panel-cover {
+        width: 80px;
+        height: 80px;
+        font-size: 28px;
+      }
+      .music-controls {
+        gap: 14px;
+      }
+      .music-ctrl-play {
+        width: 44px;
+        height: 44px;
+      }
+      .music-ctrl-play svg {
+        width: 18px;
+        height: 18px;
+      }
+      .music-ctrl-btn {
+        width: 30px;
+        height: 30px;
+      }
+      .music-ctrl-btn svg {
+        width: 15px;
+        height: 15px;
+      }
+      .social-bar {
+        gap: 14px;
+      }
+      .social-link {
+        width: 42px;
+        height: 42px;
+      }
+      .social-link svg {
+        width: 19px;
+        height: 19px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 头像 -->
-        <div class="avatar-area">
-            <img class="avatar" src="https://q2.qlogo.cn/g?b=qq&nk=3362852713&s=640" alt="Well头像">
+
+  <!-- ==========================================
+       Page Load Curtain
+       ========================================== -->
+  <div class="page-curtain" id="pageCurtain">
+    <div class="curtain-spinner"></div>
+  </div>
+
+  <!-- ==========================================
+       Hero
+       ========================================== -->
+  <header class="hero">
+    <img class="hero-avatar fade-up" src="https://q2.qlogo.cn/g?b=qq&nk=3362852713&s=640" alt="Well">
+    <h1 class="hero-name fade-up">Well</h1>
+    <p class="hero-slogan fade-up">永远相信美好的事情即将发生</p>
+  </header>
+
+  <div class="container">
+
+    <!-- ==========================================
+         About
+         ========================================== -->
+    <section class="section fade-up" id="about">
+      <h2 class="section-title">关于我</h2>
+      <div class="about-card">
+        <p>你好，我是 Well，一名热爱技术与创作的全栈开发者。日常沉迷于用代码构建有趣的东西，也喜欢用文字记录生活的点滴。</p>
+        <p>我相信技术的力量可以让世界变得更美好，也相信每一个微小的创造都值得被看见。这里是我的数字花园，欢迎你来做客。</p>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         Hobbies & Skills
+         ========================================== -->
+    <section class="section fade-left" id="hobbies">
+      <h2 class="section-title">我的爱好与特长</h2>
+      <div class="hobby-grid">
+        <div class="hobby-card fade-up">
+          <div class="hobby-icon">🎬</div>
+          <div class="hobby-info">
+            <h4>休闲爱好：追番看动漫</h4>
+            <p>热爱热血、治愈、科幻类动漫，从经典老番到新番都有涉猎，二次元永远是我的精神角落。</p>
+          </div>
         </div>
-
-        <!-- 名字与简介 -->
-        <h1 class="name">Well</h1>
-        <p class="motto">永远相信美好的事情即将发生</p>
-
-        <!-- 爱好列表区域 -->
-        <h2 class="section-title">我的爱好与特长</h2>
-        <div class="list-box">
-            <div class="list-item">
-                <div class="item-title">① 休闲爱好：追番看动漫</div>
-                <div class="item-desc">平时空闲时间喜欢观看各类动漫，涵盖热血、治愈、科幻等多种题材，喜欢感受不同故事里独特的世界观与人物剧情。</div>
-            </div>
-            <div class="list-item">
-                <div class="item-title">② 擅长游戏：PUBGM</div>
-                <div class="item-desc">长期游玩绝地求生手游，熟悉地图点位、枪械搭配与战术运营，擅长团队配合对战，拥有充足的实战游戏经验。</div>
-            </div>
-            <div class="list-item">
-                <div class="item-title">③ 长期热爱：数码科技</div>
-                <div class="item-desc">热衷于各类数码产品，喜欢研究手机、电脑、网络硬件参数，经常折腾设备调试、配件搭配，关注数码新品与硬件测评。</div>
-            </div>
+        <div class="hobby-card fade-up">
+          <div class="hobby-icon">📷</div>
+          <div class="hobby-info">
+            <h4>生活记录：摄影与旅行</h4>
+            <p>用镜头捕捉光影，用脚步丈量世界。喜欢城市街拍和自然风光摄影。</p>
+          </div>
         </div>
+        <div class="hobby-card fade-up">
+          <div class="hobby-icon">📝</div>
+          <div class="hobby-info">
+            <h4>文字创作：技术博客</h4>
+            <p>坚持写技术文章，分享学习心得与实践经验，在输出中不断成长。</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <!-- 页面底部结束文字 -->
-        <p class="end-text">well 2026</p>
-        <p class="end-text">由慕白CDN提供资源加速</p>
+    <!-- ==========================================
+         Social Icons
+         ========================================== -->
+    <section class="section fade-right" id="social">
+      <h2 class="section-title">找到我</h2>
+      <div class="social-bar">
+        <!-- QQ -->
+        <a class="social-link fade-up" href="mqqapi://card/show_pslcard?src_type=internal&version=1&uin=3362852713" data-tooltip="QQ" rel="noopener">
+          <svg viewBox="0 0 24 24">
+            <path d="M12.003 2c-2.265 0-6.29 1.364-6.29 7.325v1.195S3.55 14.96 3.55 17.474c0 .665.17 1.025.281 1.025.114 0 .902-.484 1.748-2.072 0 0-.18 2.197 1.904 3.967 0 0-1.042.624-1.042 1.064 0 1.225 6.11.54 6.11.54s5.131.408 5.453-.626c.09-.29-.098-.725-.724-.993 0 0 1.892-1.854 1.892-3.952 0-.845-.592-2.133-.972-2.953h.523c.54 0 .865-.29.865-.833 0-.636-.726-1.607-1.318-2.445v-1.385c0-5.912-3.882-7.29-6.265-7.29z"/>
+          </svg>
+        </a>
+        <!-- Bilibili -->
+        <a class="social-link fade-up" href="https://space.bilibili.com" target="_blank" data-tooltip="Bilibili" rel="noopener">
+          <svg viewBox="0 0 24 24">
+            <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/>
+          </svg>
+        </a>
+        <!-- Email -->
+        <a class="social-link fade-up" href="mailto:lxy@lxywell.top" data-tooltip="Email" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M22 4L12 13 2 4"/>
+          </svg>
+        </a>
+        <!-- Twitter/X -->
+        <a class="social-link fade-up" href="https://twitter.com" target="_blank" data-tooltip="Twitter" rel="noopener">
+          <svg viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         Footer
+         ========================================== -->
+    <footer class="footer fade-up">
+      <p>Made with <span class="heart">&#9829;</span> by Well &copy; 2026</p>
+      <p style="margin-top:4px;">lxywell.top</p>
+      <p style="margin-top:4px;">由 慕白CDN 提供资源加速</p>
+    </footer>
+
+  </div>
+
+  <!-- ==========================================
+       Theme Toggle
+       ========================================== -->
+  <button class="theme-toggle" id="themeToggle" aria-label="切换深色模式">
+    <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+
+  <!-- ==========================================
+       Music Player - Floating Toggle
+       ========================================== -->
+  <div class="music-player fade-up">
+    <button class="music-toggle" id="musicToggle" aria-label="音乐播放器">
+      <span class="music-toggle-icon">
+        <svg id="togglePlayIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5,3 19,12 5,21"/>
+        </svg>
+        <svg id="togglePauseIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+          <rect x="5" y="3" width="5" height="18" rx="1"/>
+          <rect x="14" y="3" width="5" height="18" rx="1"/>
+        </svg>
+      </span>
+      <span class="music-wave" id="musicWave">
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span id="musicToggleLabel">背景音乐</span>
+    </button>
+  </div>
+
+  <!-- ==========================================
+       Music Player - Panel
+       ========================================== -->
+  <div class="music-panel-overlay" id="musicOverlay"></div>
+
+  <audio id="audioPlayer" preload="auto"></audio>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+  <div class="music-panel" id="musicPanel">
+    <div class="music-panel-handle"></div>
+
+    <!-- Cover & Now Playing -->
+    <div class="music-panel-now">
+      <div class="music-panel-cover" id="musicCover">🎵</div>
+      <div class="music-panel-title" id="musicTitle">选择一首歌曲</div>
+      <div class="music-panel-artist" id="musicArtist">-</div>
     </div>
 
-    <!-- 悬浮播放器DOM -->
-    <div class="music-float-player">
-        <button id="audioCtrlBtn">播放</button>
-        <span>背景音乐</span>
+    <!-- Progress -->
+    <div class="music-progress-wrap">
+      <div class="music-progress-bar" id="progressBar">
+        <div class="music-progress-fill" id="progressFill"></div>
+      </div>
+      <div class="music-time">
+        <span id="currentTime">00:00</span>
+        <span id="totalTime">00:00</span>
+      </div>
     </div>
 
-    <!-- 音频标签补全闭合 -->
-    <audio id="bgAudio" loop src="https://api.1d.mom/cqyzm.mp3">
+    <!-- Controls -->
+    <div class="music-controls">
+      <button class="music-ctrl-btn" id="btnShuffle" title="随机播放">
+        <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+      </button>
+      <button class="music-ctrl-btn" id="btnPrev" title="上一首">
+        <svg viewBox="0 0 24 24"><polygon points="19,20 9,12 19,4"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+      </button>
+      <button class="music-ctrl-play" id="btnPlay" title="播放">
+        <svg id="panelPlayIcon" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg id="panelPauseIcon" viewBox="0 0 24 24" style="display:none;"><rect x="5" y="3" width="5" height="18" rx="1"/><rect x="14" y="3" width="5" height="18" rx="1"/></svg>
+      </button>
+      <button class="music-ctrl-btn" id="btnNext" title="下一首">
+        <svg viewBox="0 0 24 24"><polygon points="5,4 15,12 5,20"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+      </button>
+      <button class="music-ctrl-btn" id="btnLoop" title="循环模式">
+        <svg viewBox="0 0 24 24"><polyline points="17,1 21,5 17,9"/><path d="M3,11V9a4,4 0 0 1 4-4h14"/><polyline points="7,23 3,19 7,15"/><path d="M21,13v2a4,4 0 0 1-4,4H3"/></svg>
+      </button>
+    </div>
 
-    <script>
-        const audio = document.getElementById('bgAudio');
-        const ctrlBtn = document.getElementById('audioCtrlBtn');
-        let audioPlayed = false;
+    <!-- Volume -->
+    <div class="music-volume-wrap">
+      <span class="music-volume-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/>
+          <path d="M19.07,4.93a10,10 0 0 1 0,14.14M15.54,8.46a5,5 0 0 1 0,7.07"/>
+        </svg>
+      </span>
+      <input type="range" class="music-volume-slider" id="volumeSlider" min="0" max="100" value="70" title="音量">
+    </div>
 
-        // 统一播放触发函数
-        function startAudio() {
-            if (audioPlayed) return;
-            audio.play().then(() => {
-                audioPlayed = true;
-                ctrlBtn.innerText = '暂停';
-            }).catch(err => {
-                console.log("音频播放失败", err);
-            });
+    <!-- Playlist -->
+    <div class="music-playlist">
+      <div class="music-playlist-title">播放列表</div>
+      <ul class="music-playlist-list" id="playlist">
+        <li class="music-playlist-item active" data-index="0">
+          <span class="music-playlist-num">1</span>
+          <span class="music-playlist-playing"><span></span><span></span><span></span><span></span></span>
+          <div class="music-playlist-info">
+            <div class="music-playlist-song">春娇与志明</div>
+            <div class="music-playlist-artist">街道办GDC、欧阳耀莹</div>
+          </div>
+          <span class="music-playlist-dur">04:08</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // Theme Toggle
+    // ==========================================
+    (function() {
+      const themeToggle = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      const THEME_KEY = 'lxywell_theme';
+
+      function getTheme() {
+        return localStorage.getItem(THEME_KEY);
+      }
+
+      function setTheme(theme) {
+        if (theme) {
+          html.setAttribute('data-theme', theme);
+          localStorage.setItem(THEME_KEY, theme);
+        } else {
+          html.removeAttribute('data-theme');
+          localStorage.removeItem(THEME_KEY);
         }
+      }
 
-        // 1. 点击页面触发播放
-        document.addEventListener('click', startAudio);
-        // 2. 鼠标滚轮滚动触发播放（电脑端）
-        window.addEventListener('scroll', startAudio);
-        // 3. 手机触屏滑动触发播放（移动端）
-        window.addEventListener('touchmove', startAudio);
+      // Apply saved theme on load
+      const saved = getTheme();
+      if (saved) setTheme(saved);
 
-        // 按钮暂停/播放切换，阻止冒泡重复触发页面自动播放
-        ctrlBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (audio.paused) {
-                audio.play();
-                ctrlBtn.innerText = '暂停';
-            } else {
-                audio.pause();
-                ctrlBtn.innerText = '播放';
-            }
+      themeToggle.addEventListener('click', () => {
+        const current = html.getAttribute('data-theme');
+        if (current === 'dark') {
+          setTheme('light');
+        } else if (current === 'light') {
+          html.removeAttribute('data-theme');
+          localStorage.removeItem(THEME_KEY);
+        } else {
+          // No manual override, check system preference
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          setTheme(prefersDark ? 'light' : 'dark');
+        }
+      });
+    })();
+
+    // ==========================================
+    // Page Curtain
+    // ==========================================
+    (function() {
+      const curtain = document.getElementById('pageCurtain');
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          curtain.classList.add('hidden');
+        }, 350);
+      });
+    })();
+
+    // ==========================================
+    // Scroll Animation (Intersection Observer)
+    // ==========================================
+    (function() {
+      const animClasses = ['fade-up', 'fade-left', 'fade-right', 'scale-in'];
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
         });
-    </script>
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      animClasses.forEach(cls => {
+        document.querySelectorAll('.' + cls).forEach(el => {
+          observer.observe(el);
+        });
+      });
+
+      // Trigger initial visible elements
+      setTimeout(() => {
+        animClasses.forEach(cls => {
+          document.querySelectorAll('.' + cls).forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight) {
+              el.classList.add('visible');
+            }
+          });
+        });
+      }, 150);
+    })();
+
+    // ==========================================
+    // Music Player - Full Featured
+    // ==========================================
+    (function() {
+      // ---- Playlist Data ----
+      const playlist = [
+        { title: '春娇与志明', artist: '街道办GDC、欧阳耀莹', cover: '🎬', color: '#C08070', url: 'https://api.1d.mom/cqyzm.mp3' },
+      ];
+
+      // ---- Audio Element ----
+      const audio = document.getElementById('audioPlayer');
+
+      let currentIndex = 0;
+      let isPlaying = false;
+      let loopMode = 0; // 0: none, 1: all, 2: one
+      let shuffleMode = false;
+      let shuffleOrder = [];
+      let audioReady = false;
+
+      // ---- DOM Elements ----
+      const toggle = document.getElementById('musicToggle');
+      const togglePlayIcon = document.getElementById('togglePlayIcon');
+      const togglePauseIcon = document.getElementById('togglePauseIcon');
+      const toggleLabel = document.getElementById('musicToggleLabel');
+      const panel = document.getElementById('musicPanel');
+      const overlay = document.getElementById('musicOverlay');
+      const cover = document.getElementById('musicCover');
+      const titleEl = document.getElementById('musicTitle');
+      const artistEl = document.getElementById('musicArtist');
+      const progressBar = document.getElementById('progressBar');
+      const progressFill = document.getElementById('progressFill');
+      const currentTimeEl = document.getElementById('currentTime');
+      const totalTimeEl = document.getElementById('totalTime');
+      const btnPlay = document.getElementById('btnPlay');
+      const panelPlayIcon = document.getElementById('panelPlayIcon');
+      const panelPauseIcon = document.getElementById('panelPauseIcon');
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+      const btnShuffle = document.getElementById('btnShuffle');
+      const btnLoop = document.getElementById('btnLoop');
+      const volumeSlider = document.getElementById('volumeSlider');
+      const playlistEl = document.getElementById('playlist');
+
+      // ---- Audio Events ----
+      audio.addEventListener('loadedmetadata', () => {
+        totalTimeEl.textContent = formatTime(audio.duration);
+        audioReady = true;
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+          const pct = (audio.currentTime / audio.duration) * 100;
+          progressFill.style.width = pct + '%';
+          currentTimeEl.textContent = formatTime(audio.currentTime);
+        }
+      });
+
+      audio.addEventListener('ended', () => {
+        if (loopMode === 2) {
+          // Repeat one
+          audio.currentTime = 0;
+          audio.play();
+        } else if (shuffleMode) {
+          playNextShuffle();
+        } else if (loopMode === 1) {
+          currentIndex = (currentIndex + 1) % playlist.length;
+          loadTrack();
+        } else {
+          setPlayingState(false);
+        }
+      });
+
+      audio.addEventListener('play', () => {
+        setPlayingState(true);
+      });
+
+      audio.addEventListener('pause', () => {
+        if (!audio.ended) {
+          setPlayingState(false);
+        }
+      });
+
+      audio.addEventListener('error', () => {
+        audioReady = false;
+        setPlayingState(false);
+      });
+
+      // ---- Helpers ----
+      function formatTime(sec) {
+        if (isNaN(sec) || !isFinite(sec)) return '00:00';
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      }
+
+      function updatePanelInfo() {
+        const track = playlist[currentIndex];
+        titleEl.textContent = track.title;
+        artistEl.textContent = track.artist;
+        cover.textContent = track.cover;
+        cover.style.background = `linear-gradient(135deg, ${track.color}, ${adjustColor(track.color, -30)})`;
+        totalTimeEl.textContent = '--:--';
+        progressFill.style.width = '0%';
+        currentTimeEl.textContent = '00:00';
+        updatePlaylistUI();
+      }
+
+      function adjustColor(hex, amount) {
+        const num = parseInt(hex.replace('#', ''), 16);
+        const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+        const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+        const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+        return '#' + (0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1);
+      }
+
+      function updatePlaylistUI() {
+        const items = playlistEl.querySelectorAll('.music-playlist-item');
+        items.forEach((item, i) => {
+          item.classList.toggle('active', i === currentIndex);
+          const playingBars = item.querySelector('.music-playlist-playing');
+          if (i === currentIndex && isPlaying) {
+            playingBars.style.display = 'flex';
+          } else {
+            playingBars.style.display = 'none';
+          }
+        });
+      }
+
+      function setPlayingState(state) {
+        isPlaying = state;
+        if (isPlaying) {
+          toggle.classList.add('playing');
+          togglePlayIcon.style.display = 'none';
+          togglePauseIcon.style.display = 'block';
+          toggleLabel.textContent = playlist[currentIndex].title;
+          panelPlayIcon.style.display = 'none';
+          panelPauseIcon.style.display = 'block';
+          cover.classList.add('playing-cover');
+        } else {
+          toggle.classList.remove('playing');
+          togglePlayIcon.style.display = 'block';
+          togglePauseIcon.style.display = 'none';
+          toggleLabel.textContent = '背景音乐';
+          panelPlayIcon.style.display = 'block';
+          panelPauseIcon.style.display = 'none';
+          cover.classList.remove('playing-cover');
+        }
+        updatePlaylistUI();
+      }
+
+      function playNextShuffle() {
+        if (shuffleOrder.length === 0) {
+          shuffleOrder = playlist.map((_, i) => i).sort(() => Math.random() - 0.5);
+          const curPos = shuffleOrder.indexOf(currentIndex);
+          if (curPos > -1) {
+            shuffleOrder.splice(curPos, 1);
+            shuffleOrder.push(currentIndex);
+          }
+        }
+        const nextIdx = shuffleOrder.shift();
+        if (nextIdx !== undefined) {
+          currentIndex = nextIdx;
+          loadTrack();
+        }
+      }
+
+      function loadTrack() {
+        audioReady = false;
+        const track = playlist[currentIndex];
+        audio.src = track.url;
+        audio.load();
+        updatePanelInfo();
+        audio.play().then(() => {
+          setPlayingState(true);
+        }).catch(() => {
+          // Autoplay blocked, set state but don't play
+          setPlayingState(false);
+        });
+      }
+
+      function playPause() {
+        if (isPlaying) {
+          audio.pause();
+        } else {
+          if (!audio.src || audio.src === window.location.href) {
+            loadTrack();
+          } else {
+            audio.play().catch(() => {});
+          }
+        }
+      }
+
+      function prevTrack() {
+        if (audio.currentTime > 2) {
+          audio.currentTime = 0;
+          return;
+        }
+        currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+        loadTrack();
+      }
+
+      function nextTrack() {
+        if (shuffleMode) {
+          playNextShuffle();
+        } else {
+          currentIndex = (currentIndex + 1) % playlist.length;
+          loadTrack();
+        }
+      }
+
+      function toggleLoop() {
+        loopMode = (loopMode + 1) % 3;
+        if (loopMode === 0) {
+          btnLoop.classList.remove('mode-active');
+          btnLoop.title = '循环模式: 关闭';
+        } else if (loopMode === 1) {
+          btnLoop.classList.add('mode-active');
+          btnLoop.title = '循环模式: 列表循环';
+        } else {
+          btnLoop.classList.add('mode-active');
+          btnLoop.title = '循环模式: 单曲循环';
+        }
+      }
+
+      function toggleShuffle() {
+        shuffleMode = !shuffleMode;
+        shuffleOrder = [];
+        if (shuffleMode) {
+          btnShuffle.classList.add('mode-active');
+          btnShuffle.title = '随机播放: 开';
+        } else {
+          btnShuffle.classList.remove('mode-active');
+          btnShuffle.title = '随机播放: 关';
+        }
+      }
+
+      function closePanel() {
+        panel.classList.remove('open');
+        overlay.classList.remove('open');
+        panel.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        panel.style.transform = '';
+      }
+
+      function togglePanel() {
+        const isOpen = panel.classList.contains('open');
+        if (isOpen) {
+          closePanel();
+        } else {
+          panel.classList.add('open');
+          overlay.classList.add('open');
+          panel.style.transform = '';
+          if (!audio.src || audio.src === window.location.href) {
+            updatePanelInfo();
+          }
+        }
+      }
+
+      // ---- Touch Drag to Close ----
+      (function() {
+        let startY = 0;
+        let currentDragY = 0;
+        let isDragging = false;
+
+        panel.addEventListener('touchstart', (e) => {
+          if (!panel.classList.contains('open')) return;
+          const touch = e.touches[0];
+          startY = touch.clientY;
+          currentDragY = 0;
+          isDragging = true;
+          panel.style.transition = 'none';
+        }, { passive: true });
+
+        panel.addEventListener('touchmove', (e) => {
+          if (!isDragging) return;
+          const touch = e.touches[0];
+          currentDragY = touch.clientY - startY;
+          if (currentDragY > 0) {
+            panel.style.transform = `translateY(${currentDragY}px)`;
+          } else {
+            panel.style.transform = '';
+          }
+        }, { passive: true });
+
+        panel.addEventListener('touchend', () => {
+          if (!isDragging) return;
+          isDragging = false;
+          panel.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+          if (currentDragY > 80) {
+            closePanel();
+          } else {
+            panel.style.transform = '';
+          }
+        });
+
+        panel.addEventListener('mousedown', (e) => {
+          if (!panel.classList.contains('open')) return;
+          startY = e.clientY;
+          currentDragY = 0;
+          isDragging = true;
+          panel.style.transition = 'none';
+          e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          currentDragY = e.clientY - startY;
+          if (currentDragY > 0) {
+            panel.style.transform = `translateY(${currentDragY}px)`;
+          } else {
+            panel.style.transform = '';
+          }
+        });
+
+        document.addEventListener('mouseup', () => {
+          if (!isDragging) return;
+          isDragging = false;
+          panel.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+          if (currentDragY > 80) {
+            closePanel();
+          } else {
+            panel.style.transform = '';
+          }
+        });
+      })();
+
+      // ---- Event Listeners ----
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePanel();
+      });
+
+      overlay.addEventListener('click', () => {
+        closePanel();
+      });
+
+      btnPlay.addEventListener('click', playPause);
+      btnPrev.addEventListener('click', prevTrack);
+      btnNext.addEventListener('click', nextTrack);
+      btnLoop.addEventListener('click', toggleLoop);
+      btnShuffle.addEventListener('click', toggleShuffle);
+
+      volumeSlider.addEventListener('input', () => {
+        audio.volume = volumeSlider.value / 100;
+      });
+
+      audio.volume = volumeSlider.value / 100;
+
+      progressBar.addEventListener('click', (e) => {
+        if (!audio.duration) return;
+        const rect = progressBar.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pct * audio.duration;
+      });
+
+      playlistEl.addEventListener('click', (e) => {
+        const item = e.target.closest('.music-playlist-item');
+        if (!item) return;
+        const idx = parseInt(item.dataset.index);
+        if (idx === currentIndex) {
+          playPause();
+        } else {
+          currentIndex = idx;
+          loadTrack();
+        }
+      });
+
+      // Initial state
+      updatePanelInfo();
+    })();
+  </script>
+
 </body>
 </html>
+            
