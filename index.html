@@ -176,6 +176,10 @@
       line-height: 1;
     }
 
+    .hero-clock-time span {
+      font-variant-numeric: tabular-nums;
+    }
+
     .hero-clock-sep {
       color: var(--accent);
       animation: clockSep 1s step-end infinite;
@@ -186,8 +190,16 @@
       50% { opacity: 0.2; }
     }
 
+    .hero-clock-greet {
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent-deep);
+      letter-spacing: 1px;
+    }
+
     .hero-clock-date {
-      margin-top: 8px;
+      margin-top: 2px;
       font-size: 13px;
       color: var(--text-muted);
       font-weight: 400;
@@ -1089,6 +1101,7 @@
         <span class="hero-clock-sep">:</span>
         <span id="clockS">--</span>
       </div>
+      <div class="hero-clock-greet" id="clockGreet">--</div>
       <div class="hero-clock-date" id="clockDate">----年--月--日 星期-</div>
     </div>
   </header>
@@ -1337,16 +1350,29 @@
       const clockM = document.getElementById('clockM');
       const clockS = document.getElementById('clockS');
       const clockDate = document.getElementById('clockDate');
+      const clockGreet = document.getElementById('clockGreet');
       const days = ['日', '一', '二', '三', '四', '五', '六'];
 
       function updateClock() {
         const now = new Date();
-        clockH.textContent = String(now.getHours()).padStart(2, '0');
+        const h = now.getHours();
+        clockH.textContent = String(h).padStart(2, '0');
         clockM.textContent = String(now.getMinutes()).padStart(2, '0');
         clockS.textContent = String(now.getSeconds()).padStart(2, '0');
+
+        let greet;
+        if (h < 6) greet = '夜深了，早点休息';
+        else if (h < 9) greet = '早上好，新的一天';
+        else if (h < 12) greet = '上午好，元气满满';
+        else if (h < 14) greet = '中午好，记得吃饭';
+        else if (h < 18) greet = '下午好，继续加油';
+        else if (h < 22) greet = '晚上好，放松一下';
+        else greet = '夜深了，早点休息';
+        clockGreet.textContent = greet;
+
         clockDate.textContent = now.getFullYear() + '年' +
-          (now.getMonth() + 1) + '月' +
-          now.getDate() + '日 星期' + days[now.getDay()];
+          String(now.getMonth() + 1).padStart(2, '0') + '月' +
+          String(now.getDate()).padStart(2, '0') + '日 星期' + days[now.getDay()];
       }
       updateClock();
       setInterval(updateClock, 1000);
